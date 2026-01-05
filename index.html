@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirection…</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            padding: 40px 50px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            max-width: 420px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            opacity: 0.9;
+        }
+
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: underline;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Redirection en cours…</h1>
+        <p>Vous allez être redirigé automatiquement dans</p>
+        <div class="timer" id="countdown">1</div>
+        <p>
+            Si rien ne se passe,
+            <a href="https://www.nathabu.fr">cliquez ici</a>.
+        </p>
+    </div>
+
+    <script>
+        const countdown = document.getElementById("countdown");
+
+        // Affiche 1 → 0 instantanément
+        countdown.textContent = 1;
+
+        setTimeout(() => {
+            countdown.textContent = 0;
+        }, 50); // changement quasi instantané
+
+        // Redirection immédiate après très court délai
+        setTimeout(() => {
+            window.location.href = "https://www.nathabu.fr";
+        }, 100); // 0.1 seconde pour que l'utilisateur voit le 0
+    </script>
+
+</body>
+</html>
