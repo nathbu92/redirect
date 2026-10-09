@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        /* ... le style reste identique ... */
         body {
             margin: 0;
             height: 100vh;
@@ -16,7 +17,6 @@
             justify-content: center;
             color: white;
         }
-
         .card {
             background: rgba(255, 255, 255, 0.12);
             backdrop-filter: blur(10px);
@@ -26,29 +26,10 @@
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             max-width: 420px;
         }
-
-        h1 {
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-
-        p {
-            font-size: 1.1rem;
-            margin-bottom: 25px;
-            opacity: 0.9;
-        }
-
-        .timer {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        a {
-            color: #fff;
-            text-decoration: underline;
-            opacity: 0.9;
-        }
+        h1 { margin-bottom: 15px; font-size: 1.8rem; }
+        p { font-size: 1.1rem; margin-bottom: 25px; opacity: 0.9; }
+        .timer { font-size: 2.5rem; font-weight: bold; margin-bottom: 20px; }
+        a { color: #fff; text-decoration: underline; opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -59,24 +40,43 @@
         <div class="timer" id="countdown">1</div>
         <p>
             Si rien ne se passe,
-            <a href="https://www.nathabu.fr">cliquez ici</a>.
+            <a href="#" id="manualLink">cliquez ici</a>.
         </p>
     </div>
 
     <script>
         const countdown = document.getElementById("countdown");
 
-        // Affiche 1 → 0 instantanément
-        countdown.textContent = 1;
+        // 1. Construire l'URL de destination en préservant le chemin, la requête et le hash
+        const targetHostname = "www.nathabu.fr";
+        const currentUrl = new URL(window.location.href);
 
-        setTimeout(() => {
-            countdown.textContent = 0;
-        }, 50); // changement quasi instantané
+        // Ne rediriger que si on n'est pas déjà sur le bon hôte
+        if (currentUrl.hostname !== targetHostname) {
+            // On remplace le nom d'hôte, le reste (pathname, search, hash) est conservé
+            currentUrl.hostname = targetHostname;
 
-        // Redirection immédiate après très court délai
-        setTimeout(() => {
-            window.location.href = "https://www.nathabu.fr";
-        }, 100); // 0.1 seconde pour que l'utilisateur voit le 0
+            const destinationUrl = currentUrl.toString();
+
+            // 2. Mettre à jour le lien manuel pour qu'il pointe vers la bonne destination
+            document.getElementById("manualLink").href = destinationUrl;
+
+            // 3. Afficher le compte à rebours
+            countdown.textContent = 1;
+            setTimeout(() => {
+                countdown.textContent = 0;
+            }, 50);
+
+            // 4. Rediriger après un court délai
+            setTimeout(() => {
+                // Utiliser .replace() pour ne pas polluer l'historique de navigation
+                window.location.replace(destinationUrl);
+            }, 100);
+        } else {
+            // Si on est déjà sur le bon hôte, on ne fait rien (évite la boucle)
+            // On peut aussi cacher le compte à rebours ou afficher un message.
+            document.querySelector('.card').innerHTML = '<h1>Déjà redirigé</h1><p>Vous êtes sur le bon site.</p>';
+        }
     </script>
 
 </body>
