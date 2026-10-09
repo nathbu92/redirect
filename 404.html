@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Redirection…</title>
+    <script>
+        // On récupère le chemin (/test), les paramètres (?a=1) et l'ancre (#b)
+        const path = location.pathname + location.search + location.hash;
+        // On redirige vers Odoo en gardant tout
+        window.location.replace("https://www.nathabu.fr" + path);
+    </script>
+</head>
+<body>
+    <p>Redirection en cours…</p>
+</body>
+</html>
